@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.*;
 
 @Entity
 @Table(name = "contrat")
@@ -28,4 +29,11 @@ public class Contrat {
 
     @Column(nullable = false)
     private boolean valide;
+    @OneToOne
+    @JoinColumn(name = "reservation_id")
+    private Reservation reservation;
+
+    // Composition : les paiements n'existent pas sans le contrat
+    @OneToMany(mappedBy = "contrat", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Paiement> paiements = new ArrayList<>();
 }

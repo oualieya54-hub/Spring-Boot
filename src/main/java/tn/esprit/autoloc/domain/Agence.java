@@ -5,7 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
+import org.hibernate.engine.internal.Cascade;
+import java.util.*;
 @Entity
 @Table(name = "agence")
 @Getter
@@ -13,7 +14,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Agence {
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idAgence;
@@ -29,4 +30,11 @@ public class Agence {
 
     @Column(nullable = false, length = 20)
     private String telephone;
+
+    @OneToMany(mappedBy = "agence", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Employe> employes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "agence")
+    private List<Vehicule> vehicules = new ArrayList<>();
+
 }
